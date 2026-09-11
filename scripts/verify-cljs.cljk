@@ -11,7 +11,7 @@
 ;; is exactly the class of bug this task's own instructions name as
 ;; having bitten repeatedly in past waves; only running here catches it.
 ;;
-;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk
 (ns verify-cljs
   (:require [clojure.test :as t]
             [matter.tlv-test]
