@@ -1,5 +1,5 @@
 (ns matter.message-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [matter.message :as msg]))
 
 ;; ;; constructed, not a published spec vector
