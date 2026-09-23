@@ -1,5 +1,5 @@
 (ns matter.tlv-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [matter.tlv :as tlv]))
 
 ;; ── tag round trip ──────────────────────────────────────────────────────

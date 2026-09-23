@@ -1,5 +1,5 @@
 (ns matter.protocol-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [matter.protocol :as proto]))
 
 ;; ;; constructed, not a published spec vector
