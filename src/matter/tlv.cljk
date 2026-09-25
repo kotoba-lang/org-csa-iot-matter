@@ -81,7 +81,8 @@
   library's knowledge draws on; which end of the byte each field
   occupies is the one specific fact taken furthest from independent
   reconfirmation."
-  #?(:clj (:import (java.nio ByteBuffer ByteOrder))))
+  #?(:clj (:import (java.nio ByteBuffer ByteOrder)))
+  (:require [kotoba.bytes :as kbytes]))
 
 ;; ── little-endian integer helpers, floor-division based so a NEGATIVE
 ;;    signed value's two's-complement bytes come out right on both
@@ -288,7 +289,7 @@
             (contains? no-value-types type) [:ok (vec (concat [control] tag-bytes))]
 
             (contains? utf8-types type)
-            (let [lw (length-field-width type) content #?(:clj (vec (map #(bit-and (int %) 0xFF) (.getBytes ^String value "UTF-8")))
+            (let [lw (length-field-width type) content #?(:clj (vec (map #(bit-and (int %) 0xFF) (kbytes/utf8-bytes ^String value)))
                                                             :cljs (vec (.encode (js/TextEncoder.) value)))
                   full (pow256 lw)]
               (if (>= (count content) full)
@@ -363,7 +364,7 @@
                         (let [len (rd-uint-n-le bs voff lw) coff (+ voff lw)]
                           (if (< n (+ coff len)) [:error :matter.tlv/element-too-short n]
                               [:ok {:tag tag :type type
-                                    :value #?(:clj (String. (byte-array (map #(if (> % 127) (- % 256) %) (subvec bs coff (+ coff len)))) "UTF-8")
+                                    :value #?(:clj (kbytes/utf8-string (byte-array (map #(if (> % 127) (- % 256) %) (subvec bs coff (+ coff len)))))
                                               :cljs (.decode (js/TextDecoder.) (js/Uint8Array. (clj->js (subvec bs coff (+ coff len))))))}
                                (+ 1 tag-len lw len)]))))
 
